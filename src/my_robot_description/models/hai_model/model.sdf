@@ -1,0 +1,146 @@
+<sdf version="1.6">
+  <model name="iris_with_better_arm">
+    
+    <!-- Import the original Iris model -->
+    <include>
+      <uri>model://iris</uri>  <!-- This imports the original Iris model -->
+      <pose>0 0 0 0 0 0</pose>  <!-- Position the Iris at the origin -->
+    </include>
+
+    <!-- Arm Link 1 (Base Segment) -->
+    <link name="robot_arm_link1">
+      <pose>0 0 0.3 0 0 0</pose>  <!-- Position the arm base above the Iris -->
+      <inertial>
+        <mass>0.1</mass>
+        <inertia>
+          <ixx>0.01</ixx>
+          <iyy>0.01</iyy>
+          <izz>0.01</izz>
+        </inertia>
+      </inertial>
+      <collision name="robot_arm_link1_collision">
+        <geometry>
+          <box>
+            <size>0.05 0.05 0.1</size>  <!-- First segment of the arm -->
+          </box>
+        </geometry>
+      </collision>
+      <visual name="robot_arm_link1_visual">
+        <geometry>
+          <box>
+            <size>0.05 0.05 0.1</size>  <!-- Visual size same as collision -->
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Blue</name>  <!-- Blue color for this segment -->
+          </script>
+        </material>
+      </visual>
+    </link>
+
+    <!-- Joint 1 (Connecting Iris to Arm) -->
+    <joint name="robot_arm_joint1" type="revolute">
+      <parent>iris::base_link</parent>  <!-- Attach to the Iris base_link -->
+      <child>robot_arm_link1</child>
+      <axis>
+        <xyz>0 1 0</xyz>  <!-- Rotates around the Y-axis -->
+        <limit>
+          <lower>-1.57</lower>  <!-- -90 degrees -->
+          <upper>1.57</upper>   <!-- 90 degrees -->
+        </limit>
+      </axis>
+    </joint>
+
+    <!-- Arm Link 2 (Middle Segment) -->
+    <link name="robot_arm_link2">
+      <pose>0 0 0.4 0 0 0</pose>  <!-- Position second segment above the first -->
+      <inertial>
+        <mass>0.1</mass>
+        <inertia>
+          <ixx>0.01</ixx>
+          <iyy>0.01</iyy>
+          <izz>0.01</izz>
+        </inertia>
+      </inertial>
+      <collision name="robot_arm_link2_collision">
+        <geometry>
+          <box>
+            <size>0.05 0.05 0.1</size>  <!-- Second segment of the arm -->
+          </box>
+        </geometry>
+      </collision>
+      <visual name="robot_arm_link2_visual">
+        <geometry>
+          <box>
+            <size>0.05 0.05 0.1</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Green</name>  <!-- Green color for this segment -->
+          </script>
+        </material>
+      </visual>
+    </link>
+
+    <!-- Joint 2 (Connecting Arm Segments) -->
+    <joint name="robot_arm_joint2" type="revolute">
+      <parent>robot_arm_link1</parent>  <!-- Attach to the first segment -->
+      <child>robot_arm_link2</child>
+      <axis>
+        <xyz>1 0 0</xyz>  <!-- Rotates around the X-axis -->
+        <limit>
+          <lower>-1.57</lower>  <!-- -90 degrees -->
+          <upper>1.57</upper>   <!-- 90 degrees -->
+        </limit>
+      </axis>
+    </joint>
+
+    <!-- Arm Link 3 (End Effector) -->
+    <link name="robot_arm_link3">
+      <pose>0 0 0.5 0 0 0</pose>  <!-- Position the third segment -->
+      <inertial>
+        <mass>0.05</mass>
+        <inertia>
+          <ixx>0.005</ixx>
+          <iyy>0.005</iyy>
+          <izz>0.005</izz>
+        </inertia>
+      </inertial>
+      <collision name="robot_arm_link3_collision">
+        <geometry>
+          <box>
+            <size>0.05 0.05 0.1</size>  <!-- End effector -->
+          </box>
+        </geometry>
+      </collision>
+      <visual name="robot_arm_link3_visual">
+        <geometry>
+          <box>
+            <size>0.05 0.05 0.1</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Red</name>  <!-- Red color for the end effector -->
+          </script>
+        </material>
+      </visual>
+    </link>
+
+    <!-- Joint 3 (Connecting Middle Segment to End Effector) -->
+    <joint name="robot_arm_joint3" type="revolute">
+      <parent>robot_arm_link2</parent>
+      <child>robot_arm_link3</child>
+      <axis>
+        <xyz>0 1 0</xyz>  <!-- Rotates around the Y-axis -->
+        <limit>
+          <lower>-1.57</lower>  <!-- -90 degrees -->
+          <upper>1.57</upper>   <!-- 90 degrees -->
+        </limit>
+      </axis>
+    </joint>
+
+  </model>
+</sdf>

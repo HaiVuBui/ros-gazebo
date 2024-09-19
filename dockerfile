@@ -4,6 +4,7 @@ WORKDIR /ws
 
 RUN apt-get update -y && apt-get install -y \
     ros-noetic-gazebo-ros 
+RUN apt-get install ros-noetic-xacro
 
 COPY ./src ./src
 
