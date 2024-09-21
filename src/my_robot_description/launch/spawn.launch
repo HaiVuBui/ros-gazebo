@@ -5,15 +5,12 @@
     <arg name="world_name" value="$(find gazebo_ros)/worlds/empty.world"/>
   </include>
 
-  <!-- Load the robot description -->
-  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find my_robot_description)/urdf/robot.urdf'" />
-
-  <!-- Arguments for the robot's position -->
+  <!-- Arguments for the model's position -->
   <arg name="x" default="0"/>
   <arg name="y" default="0"/>
   <arg name="z" default="0.5"/>
 
-  <!-- Spawn the robot in Gazebo -->
-  <node name="my_robot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
-        args="-urdf -param robot_description -model my_robot -x $(arg x) -y $(arg y) -z $(arg z)" />
+  <!-- Spawn the model in Gazebo using the .sdf file -->
+  <node name="my_model_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
+        args="-file '$(find my_robot_description)/models/iris.sdf' -sdf -model my_model -x $(arg x) -y $(arg y) -z $(arg z)" />
 </launch>
